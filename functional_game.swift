@@ -20,10 +20,12 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
+import Foundation
+
 typealias Frame = (t1: Int, t2: Int, filler: Int?)
 
 struct Game {
-
+    
     var frames: [Frame] = []
     
     /// 'true' when 10 frames have been added.
@@ -45,9 +47,10 @@ struct Game {
     /// TODO: FIX omit incomplete frames, perhaps?
     /// - returns: A tuple score for each frame of the game containing the frame details, score and accumulative score.
     func scores() -> [(String,Int,Int)] {
+        let scores = reduce(mapFrames(frames))
         var accum = 0
         return (0..<frames.endIndex).map{
-            let score = frameScore(frames, i: $0)
+            let score = scores[$0]
             accum += score
             return (displayString(frames[$0]), score, accum)
         }
@@ -58,11 +61,35 @@ struct Game {
         switch true {
             case isStrike(f): result = "X"
             case isSpare(f):  result = "\(f.t1)/" + (hasFillBall(f) ? "\(fillBall(f))" : "")
-            default: result = "\(f.t1)\(f.t2)"
+            default: result = "\(f.t1) \(f.t2)"
         }
         return result
     }
-
+    
+    /// Sum the Ints in an array using slices equal to startIndex..<(startIndex + n)
+    /// where n in 1...2 and startIndex in 0..<10
+    private func reduce(scores: [Int]) -> [Int] {
+        var c = 0
+        return (0..<10).map{ _ -> Int in
+            let i = scores[c] + scores[c+1] < 10 ? 1 : 2
+            let sum = scores[(c)...(c+i)].reduce(0, combine: +)
+            c += scores[c] < 10 ? 2 : 1
+            return sum
+        }
+    }
+    
+    /// Produce an array that removes the 'noise' of a Frame
+    private func mapFrames(xs: [Frame]) -> [Int] {
+        func mapf(f: Frame) -> [Int] {
+            if f.t1 == 10 { return [f.t1] }
+            return [f.t1, f.t2]
+        }
+        func endf(f: Frame) -> [Int] {
+            return [f.t1, f.t2, fillBall(f)]
+        }
+        return xs.dropLast().flatMap({ mapf($0)}) + endf(xs.last!)
+    }
+    
     private func isSpare(f: Frame) -> Bool {
         return !isStrike(f) && f.t1 + f.t2 == 10
     }
@@ -85,15 +112,6 @@ struct Game {
     
     private func sum(f: Frame) -> Int {
         return f.t1 + f.t2
-    }
-    
-    private func frameScore(array: [Frame], i: Int) -> Int {
-        let xs = array[(i)..<(min(i + 3, array.endIndex))]
-        let total = sum(xs[i])
-        if isOpen(xs[i]) || xs.count == 1 { return total + fillBall(xs[i]) }
-        if isSpare(xs[i]) { return total + xs[i + 1].t1 }
-        if !isStrike(xs[i + 1]) || xs.count == 2 { return total + sum(xs[i + 1]) }
-        return total + xs[i + 1].t1 + xs[i + 2].t1
     }
     
 }
