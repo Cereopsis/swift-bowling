@@ -48,14 +48,14 @@ struct Game {
     /// - returns: A tuple score for each frame of the game containing the frame details, score and accumulative score.
     func scores() -> [(String,Int,Int)] {
         let scores = reduce(mapFrames(frames))
-        let z = zip(frames.map{ displayString($0) }, scores).flatMap{ $0 }
+        let z = zip(frames.map{ toString($0) }, scores).flatMap{ $0 }
         return z.tail.reduce([(z.head.0, z.head.1, z.head.1)]){ acc, tup in
             let num = acc.last!.2
             return acc + [(tup.0, tup.1, tup.1 + num)]
         }
     }
     
-    private func displayString(f: Frame) -> String {
+    private func toString(f: Frame) -> String {
         let result: String
         switch true {
             case isStrike(f): result = "X"
