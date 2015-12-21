@@ -77,7 +77,8 @@ struct Game {
         }
     }
     
-    /// Produce an array that removes the 'noise' of a Frame
+    /// Concatenate the frames, removing the 'noise' e.g second throw and fill ball when not required
+    /// we can then process in a further step to get the scores.
     private func mapFrames(xs: [Frame]) -> [Int] {
         func mapf(f: Frame) -> [Int] {
             if f.t1 == 10 { return [f.t1] }
@@ -107,10 +108,6 @@ struct Game {
     
     private func fillBall(f: Frame) -> Int {
         return f.filler ?? 0
-    }
-    
-    private func sum(f: Frame) -> Int {
-        return f.t1 + f.t2
     }
     
 }
