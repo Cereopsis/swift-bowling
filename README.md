@@ -38,9 +38,25 @@ Something a bit more OO. It adds some bells and whistles like a bit of error che
   func takeaP(p: P) {
       print(p.abstract())
   }
+  
+  func castaP(p: P) {
+      switch p {
+          case is SubConcrete: print("Cast -> " + (p as! SubConcrete).abstract())
+          default: takeaP(p)
+      }
+  }
 
   takeaP(ConcreteP())
   takeaP(SubConcrete())
   takeaP(OverridingP())
-  print(SubConcrete().abstract())
+  castaP(SubConcrete())
+```
+
+Output:
+```
+Abstract: protocol-supplied implementation
+Abstract: protocol-supplied implementation
+Overriding: concrete implementation supplies new definition
+Cast -> Subclassed: Hello World!
+Subclassed: Hello World!
 ```
