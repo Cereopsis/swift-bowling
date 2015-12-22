@@ -59,3 +59,5 @@ Abstract: protocol-supplied implementation
 Overriding: concrete implementation supplies new definition
 Cast -> Subclassed: Hello World!
 ```
+
+Perhaps a Scala version next...
