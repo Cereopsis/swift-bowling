@@ -58,5 +58,4 @@ Abstract: protocol-supplied implementation
 Abstract: protocol-supplied implementation
 Overriding: concrete implementation supplies new definition
 Cast -> Subclassed: Hello World!
-Subclassed: Hello World!
 ```
