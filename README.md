@@ -8,7 +8,7 @@ Swift more-or-less pure functional implementation.
 
 ## OO-Functional Example
 Something a bit more OO. It adds some bells and whistles like a bit of error checking. I've used a protocol extension to add some boilerplate stuff which is a bit like the Scala companion Object or perhaps the nearest one can get to an abstract class in Swift. Caution is required here if you're overriding functions implemented this way and passing the Type around instead of the concrete implementation; you may find that the protocol provided version gets used because of the stripping that can occur.
-
+```
   protocol P {
       func abstract() -> String
   }
@@ -43,3 +43,4 @@ Something a bit more OO. It adds some bells and whistles like a bit of error che
   takeaP(SubConcrete())
   takeaP(OverridingP())
   print(SubConcrete().abstract())
+```
