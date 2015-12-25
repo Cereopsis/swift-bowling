@@ -68,3 +68,7 @@ Scala provides many more ways to work with lists. For example, we can grab the t
 xs.take(3).flatMap(x => x).take(3) 
 // As we process the list, we'll eventually run out of items but take(3) will still work correctly
 ```
+It's interesting jumping between languages and it can have the effect of encouraging you to try different things. I'd obviously not read the manual properly as far as Swift goes because I overlooked a few functions on collections that achieve the same thing as take(n) and friends - `prefix`, `prefixUpTo`, `prefixThrough` etc. Coupled with the idea of processing scores as an array-of-arrays / nested Lists, I feel like I managed to get rid of some awkwardness around trying to grab the appropriate number of throws to use when doing the calculation. Reworking `Scoreable` to make the list thing more explicit (OK, I'm perhaps using a Scala-specific term there) allowed me to process the end frame more naturally. The swift equivalent of above now looks like this:
+```
+xs.prefix(3).flatten().prefix(3).reduce(0, combine: +)
+```
