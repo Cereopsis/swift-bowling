@@ -61,7 +61,24 @@ public struct Game {
             return acc + [(tup.0, tup.1, tup.1 + num)]
         }
     }
+
+
     
+    /// Take the two dimensional array and calculate the score for each frame by using consecutive frames where necessary
+    private func reduce(scores: [[Int]]) -> [Int] {
+        func recurse(xs: ArraySlice<Array<Int>>, accumulator: [Int]) -> [Int] {
+            if xs.isEmpty { return accumulator }
+            let s = xs.head.reduce(0, combine: +)
+            let score: Int = {
+                if s < 10 || xs.tail.isEmpty { return s }                      // open or final frame - use the sum directly
+                return xs.prefix(3).flatten().prefix(3).reduce(0, combine: +)  // take 3 consecutive throws and sum them - accounts for 3 strikes
+            }()
+            return recurse(xs.tail, accumulator: accumulator + [score])
+        }
+        return recurse(scores[0..<scores.endIndex], accumulator: [])
+    }
+    
+    /*
     /// Sum the Ints in an array using slices equal to startIndex..<(startIndex + n)
     /// where n in 1...2 and startIndex in 0..<10
     private func reduce(scores: [Int]) -> [Int] {
@@ -85,5 +102,5 @@ public struct Game {
         }
         return xs.dropLast().flatMap({ mapf($0)}) + endf(xs.last! as! EndFrame)
     }
-    
+    */
 }
