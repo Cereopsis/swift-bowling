@@ -30,7 +30,7 @@ public protocol Scoreable {
     var isStrike: Bool { get }
     var isSpare: Bool { get }
     var isOpen: Bool { get }
-    func score(frames: [Scoreable]) -> Int
+    var toList: [Int] { get }
     var displayString: String { get }
 }
 
@@ -40,6 +40,7 @@ public extension Scoreable {
     var isOpen:   Bool { return total < 10 }
     var total:    Int  { return firstThrow + secondThrow }
     var fillBall: Int? { return .None }
+    var toList: [Int]  { return isStrike ? [10] : [firstThrow, secondThrow] }
     var displayString: String {
         if isOpen { return "\(firstThrow) \(secondThrow)" }
         if isSpare { return "\(firstThrow)/" }
