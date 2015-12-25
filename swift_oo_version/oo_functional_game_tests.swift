@@ -50,9 +50,19 @@ class OOFunctionalGameTests: XCTestCase {
         XCTAssertTrue(frame.isStrike)
     }
     
+    func testStrikeHasSingleElementList() {
+        let frame = Frame(throw1: 10)!
+        XCTAssertEqual(frame.toList.count, 1)
+    }
+    
     func testCreateSpare() {
         let frame = Frame(throw1: 7, throw2: 3)!
         XCTAssertTrue(frame.isSpare)
+    }
+    
+    func testSpareHasTwoElementList() {
+        let frame = Frame(throw1: 9, throw2: 1)!
+        XCTAssertEqual(frame.toList.count, 2)
     }
     
     func testFrameTotal() {
@@ -77,6 +87,16 @@ class OOFunctionalGameTests: XCTestCase {
         XCTAssertEqual(frame.displayString, "X")
     }
     
+    func testStrikeEndFrameDisplayString() {
+        let frame = EndFrame(throw1: 10, throw2: 5, throw3: 3)!
+        XCTAssertEqual(frame.displayString, "X")
+    }
+    
+    func testSpareEndFrameDisplayString() {
+        let frame = EndFrame(throw1: 7, throw2: 3, throw3: 3)!
+        XCTAssertEqual(frame.displayString, "7/3")
+    }
+    
     func testCantCreateBadEndFrame() {
         var frame = EndFrame(throw1: 11, throw2: 0, throw3: .None)
         XCTAssertNil(frame)
@@ -84,6 +104,14 @@ class OOFunctionalGameTests: XCTestCase {
         XCTAssertNil(frame)
         frame = EndFrame(throw1: 0, throw2: 0, throw3: 11)
         XCTAssertNil(frame)
+        frame = EndFrame(throw1: 7, throw2: 2, throw3: 1)
+        XCTAssertNil(frame)
+    }
+    
+    func testCanCreateSpareEndFrame() {
+        let frame = EndFrame(throw1: 6, throw2: 4, throw3: 3)
+        XCTAssertNotNil(frame)
+        XCTAssertEqual(frame!.total, 13)
     }
     
     func testCanCreatePerfectEndFrame() {

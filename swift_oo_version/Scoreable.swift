@@ -25,7 +25,6 @@ import Foundation
 public protocol Scoreable {
     var firstThrow: Int  { get }
     var secondThrow: Int { get }
-    var fillBall: Int? { get }
     var total: Int { get }
     var isStrike: Bool { get }
     var isSpare: Bool { get }
@@ -35,12 +34,12 @@ public protocol Scoreable {
 }
 
 public extension Scoreable {
+    var firstThrow: Int  { return toList.first! }
+    var secondThrow: Int { return toList.count > 1 ? toList[1] : 0 }
     var isStrike: Bool { return firstThrow == 10 }
     var isSpare:  Bool { return !isStrike && firstThrow + secondThrow == 10 }
     var isOpen:   Bool { return total < 10 }
-    var total:    Int  { return firstThrow + secondThrow }
-    var fillBall: Int? { return .None }
-    var toList: [Int]  { return isStrike ? [10] : [firstThrow, secondThrow] }
+    var total:    Int  { return toList.reduce(0, combine: +) }
     var displayString: String {
         if isOpen { return "\(firstThrow) \(secondThrow)" }
         if isSpare { return "\(firstThrow)/" }

@@ -24,56 +24,50 @@ import Foundation
 
 public struct EndFrame: Scoreable {
     
-    public let firstThrow: Int
-    public let secondThrow: Int
-    public let fillBall: Int?
+    private let fillBall: Int?
+    private let frame: Frame
     
-    public init?(throw1: Int, throw2: Int, throw3: Int?) {
-        firstThrow = throw1
-        secondThrow = throw2
+    public init?(throw1: Int, throw2: Int = 0, throw3: Int? = .None) {
+        let list = [throw1] + (throw2 == 0 ? [] : [throw2])
+        frame = Frame(list: list)
         fillBall  = throw3
-        if firstThrow > 10 || secondThrow > 10 { return nil }
-        if let n = fillBall where n > 10 { return nil }
-    }
-    
-    public func score(frames: [Scoreable]) -> Int {
-        let filler = fillBall ?? 0
-        return firstThrow + secondThrow + filler
+        if throw1 > 10 || throw2 > 10 {
+            // we must validate on behalf of Frame
+            return nil
+        } else if let f = fillBall where f > 10 || frame.isOpen {
+            // the last frame must be at least a spare to need a fill ball
+            return nil
+        }
     }
     
     public var displayString: String {
-        if isOpen { return "\(firstThrow) \(secondThrow)" }
-        if isSpare {
-            var result = "\(firstThrow)/"
-            if let filler = fillBall {
-                result += "\(filler)"
-            }
-            return result
+        let str = frame.displayString
+        if let f = fillBall where !isStrike {
+            return "\(str)\(f)"
         }
-        return "X"
+        return str
+    }
+    
+    public var toList: [Int] {
+        return frame.toList + (fillBall == nil ? [] : [fillBall!])
     }
 }
 
 public struct Frame: Scoreable {
     
-    public let firstThrow: Int
-    public let secondThrow: Int
+    private let array: [Int]
+    
+    private init(list: [Int]) {
+        array = list
+    }
+    
     public init?(throw1: Int, throw2: Int = 0) {
-        firstThrow = throw1
-        secondThrow = throw2
+        array = throw2 == 0 ? [throw1] : [throw1, throw2]
         if total > 10 {
             return nil
         }
     }
     
-    public func score(frames: [Scoreable]) -> Int {
-        func scoreAcc(f: ArraySlice<Scoreable>, take: Int, result: Int) -> Int {
-            if f.isEmpty || take == 0 { return result }
-            if take == 1 { return result + f.head.firstThrow }
-            return scoreAcc(f.tail, take: f.head.isStrike ? 1 : 0 , result: result + f.head.total)
-        }
-        if frames.isEmpty || isOpen { return total }
-        return scoreAcc(frames.suffixFrom(0), take: isSpare ? 1 : 2, result: total)
-    }
+    public var toList: [Int] { return array }
     
 }
