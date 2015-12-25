@@ -7,7 +7,7 @@ I was reading something the other day, I can't exactly remember what but it used
 Swift more-or-less pure functional implementation.
 
 ## OO-Functional Example
-Something a bit more OO. It adds some bells and whistles like a bit of error checking. I've used a protocol extension to add some boilerplate stuff which is a bit like the Scala companion Object or perhaps the nearest one can get to an abstract class in Swift. Caution is required here if you're overriding functions implemented this way and passing the Type around instead of the concrete implementation; you may find that the protocol provided version gets used because of the stripping that can occur.
+Something a bit more OO. It adds some bells and whistles like a bit of error checking. I've used a protocol extension to add some boilerplate stuff which is a bit like the Scala Trait or perhaps the nearest one can get to an abstract class in Swift. Caution is required here if you're overriding functions implemented this way and passing the Type around instead of the concrete implementation; you may find that the protocol provided version gets used because of the stripping that can occur.
 ```
   protocol P {
       func abstract() -> String
@@ -60,4 +60,11 @@ Overriding: concrete implementation supplies new definition
 Cast -> Subclassed: Hello World!
 ```
 
-Perhaps a Scala version next...
+## Scala
+Scala provides many more ways to work with lists. For example, we can grab the top n items with `take(n)` and furthermore we don't need to worry about bounds checking, we'll get whatever is available:
+```
+// Given a structure like this: List(List(10),List(7,3),List(7,2))
+// Take first three items, flatten into a single list, then take the first 3 Ints
+xs.take(3).flatMap(x => x).take(3) 
+// As we process the list, we'll eventually run out of items but take(3) will still work correctly
+```
