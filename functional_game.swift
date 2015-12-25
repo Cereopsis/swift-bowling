@@ -47,7 +47,7 @@ struct Game {
     /// TODO: FIX omit incomplete frames, perhaps?
     /// - returns: A tuple score for each frame of the game containing the frame details, score and accumulative score.
     func scores() -> [(String,Int,Int)] {
-        let scores = reduce(mapFrames(frames))
+        let scores = reduce(frames.map{ toList($0) })
         let z = zip(frames.map{ toString($0) }, scores).flatMap{ $0 }
         return z.tail.reduce([(z.head.0, z.head.1, z.head.1)]){ acc, tup in
             let num = acc.last!.2
@@ -65,29 +65,26 @@ struct Game {
         return result
     }
     
-    /// Sum the Ints in an array using slices equal to startIndex..<(startIndex + n)
-    /// where n in 1...2 and startIndex in 0..<10
-    private func reduce(scores: [Int]) -> [Int] {
-        var c = 0
-        return (0..<10).map{ _ -> Int in
-            let i = scores[c] + scores[c+1] < 10 ? 1 : 2
-            let sum = scores[(c)...(c+i)].reduce(0, combine: +)
-            c += scores[c] < 10 ? 2 : 1
-            return sum
+    /// Take the two dimensional array and calculate the score for each frame by using consecutive frames where necessary
+    private func reduce(scores: [[Int]]) -> [Int] {
+        func recurse(xs: ArraySlice<Array<Int>>, accumulator: [Int]) -> [Int] {
+            if xs.isEmpty { return accumulator }
+            let s = xs.head.reduce(0, combine: +)
+            let score: Int = {
+                if s < 10 || xs.tail.isEmpty { return s }                      // open or final frame - use the sum directly
+                return xs.prefix(3).flatten().prefix(3).reduce(0, combine: +)  // take 3 consecutive throws and sum them - accounts for 3 strikes
+            }()
+            return recurse(xs.tail, accumulator: accumulator + [score])
         }
+        return recurse(scores[0..<scores.endIndex], accumulator: [])
     }
     
-    /// Concatenate the frames, removing the 'noise' e.g second throw and fill ball when not required
-    /// we can then process in a further step to get the scores.
-    private func mapFrames(xs: [Frame]) -> [Int] {
-        func mapf(f: Frame) -> [Int] {
-            if f.t1 == 10 { return [f.t1] }
-            return [f.t1, f.t2]
+    private func toList(f: Frame) -> [Int] {
+        switch true {
+        case hasFillBall(f): return [f.t1, f.t2, f.filler!]
+        case isStrike(f): return [10]
+        default: return [f.t1, f.t2]
         }
-        func endf(f: Frame) -> [Int] {
-            return [f.t1, f.t2, fillBall(f)]
-        }
-        return xs.dropLast().flatMap({ mapf($0)}) + endf(xs.last!)
     }
     
     private func isSpare(f: Frame) -> Bool {
