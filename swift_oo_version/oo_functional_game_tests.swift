@@ -65,11 +65,11 @@ class OOFunctionalGameTests: XCTestCase {
         XCTAssertEqual(frame.toList.count, 2)
     }
     
-    func testFrameTotal() {
+    func testFramePinCount() {
         var frame = Frame(throw1: 10)!
-        XCTAssertEqual(frame.total, 10)
+        XCTAssertEqual(frame.pinCount, 10)
         frame = Frame(throw1: 1, throw2: 9)!
-        XCTAssertEqual(frame.total, 10)
+        XCTAssertEqual(frame.pinCount, 10)
     }
     
     func testOpenFrameDisplayString() {
@@ -111,7 +111,7 @@ class OOFunctionalGameTests: XCTestCase {
     func testCanCreateSpareEndFrame() {
         let frame = EndFrame(throw1: 6, throw2: 4, throw3: 3)
         XCTAssertNotNil(frame)
-        XCTAssertEqual(frame!.total, 13)
+        XCTAssertEqual(frame!.pinCount, 13)
     }
     
     func testCanCreatePerfectEndFrame() {

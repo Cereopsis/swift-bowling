@@ -63,7 +63,7 @@ public struct Frame: Scoreable {
     
     public init?(throw1: Int, throw2: Int = 0) {
         array = throw2 == 0 ? [throw1] : [throw1, throw2]
-        if total > 10 {
+        if pinCount > 10 {
             return nil
         }
     }
