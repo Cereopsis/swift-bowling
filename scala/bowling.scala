@@ -36,7 +36,7 @@ package bowling {
 	
     class Game {
         
-        def isComplete: Boolean = frames.length == 10
+      def isComplete: Boolean = frames.length == 10
     	var frames: List[Scoreable] = Nil
 	
     	def add(frame: Scoreable) {
@@ -62,10 +62,10 @@ package bowling {
     		        }
     		        val total = score.reduceLeft(_+_)                           // sum the 2/3 Int's
     		        recurse(xs.tail, total :: accumulator)
-                }
+              }
     	    }
-    		val frameList = frames.reverse.map(f => f.toList) // convert to a List[List[Int]]
-            recurse(frameList, Nil)
+    	    val frameList = frames.reverse.map(f => f.toList) // convert to a List[List[Int]]
+          recurse(frameList, Nil)
     	}
     }
     
