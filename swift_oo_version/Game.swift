@@ -54,7 +54,7 @@ public struct Game {
 
     
     public func scores() -> [(String, Int, Int)] {
-        let scores = reduce(frames.map{ $0.toList() })
+        let scores = reduce(frames.map{ $0.toList })
         let z = zip(frames.map{ $0.displayString }, scores).flatMap{ $0 }
         return z.tail.reduce([(z.head.0, z.head.1, z.head.1)]){ acc, tup in
             let num = acc.last!.2
