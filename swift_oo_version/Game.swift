@@ -60,7 +60,7 @@ public struct Game {
     
     private func accumulate(xs: [Int]) -> [(Int, Int)] {
         if xs.isEmpty { return [] }
-        return xs.tail.reduce([(xs.head, xs.head)]{ b, a in
+        return xs.tail.reduce([(xs.head, xs.head)]){ b, a in
             return b + [(a, a + b.last!.1)]
         }
     }
