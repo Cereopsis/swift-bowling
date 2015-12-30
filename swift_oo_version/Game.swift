@@ -55,10 +55,13 @@ public struct Game {
     
     public func scores() -> [(String, Int, Int)] {
         let scores = reduce(frames.map{ $0.toList })
-        let z = zip(frames.map{ $0.displayString }, scores).flatMap{ $0 }
-        return z.tail.reduce([(z.head.0, z.head.1, z.head.1)]){ acc, tup in
-            let num = acc.last!.2
-            return acc + [(tup.0, tup.1, tup.1 + num)]
+        return zip(frames.map{ $0.displayString }, accumulate(scores)).flatMap{ ($0.0, $0.1.0, $0.1.1) }
+    }
+    
+    private func accumulate(xs: [Int]) -> [(Int, Int)] {
+        if xs.isEmpty { return [] }
+        return xs.tail.reduce([(xs.head, xs.head)]{ b, a in
+            return b + [(a, a + b.last!.1)]
         }
     }
     
