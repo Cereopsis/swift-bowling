@@ -56,13 +56,14 @@ struct Game {
     }
     
     private func toString(f: Frame) -> String {
-        let result: String
         switch true {
-            case isStrike(f): result = "X"
-            case isSpare(f):  result = "\(f.t1)/" + (hasFillBall(f) ? "\(fillBall(f))" : "")
-            default: result = "\(f.t1) \(f.t2)"
+        case isStrike(f):
+            return "X"
+        case isSpare(f):
+            return "\(f.t1)/" + (hasFillBall(f) ? "\(fillBall(f))" : "")
+        default:
+            return "\(f.t1) \(f.t2)"
         }
-        return result
     }
     
     /// Take the two dimensional array and calculate the score for each frame by using consecutive frames where necessary
@@ -81,9 +82,12 @@ struct Game {
     
     private func toList(f: Frame) -> [Int] {
         switch true {
-        case hasFillBall(f): return [f.t1, f.t2, f.filler!]
-        case isStrike(f): return [10]
-        default: return [f.t1, f.t2]
+        case hasFillBall(f):
+            return [f.t1, f.t2, f.filler!]
+        case isStrike(f):
+            return [10]
+        default:
+            return [f.t1, f.t2]
         }
     }
     
