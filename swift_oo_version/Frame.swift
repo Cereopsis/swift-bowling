@@ -28,13 +28,13 @@ public struct EndFrame: Scoreable {
     private let frame: Frame
     
     public init?(throw1: Int, throw2: Int = 0, throw3: Int? = .None) {
+        precondition(throw1 <= 10)
+        precondition(throw2 <= 10)
+
         let list = [throw1] + (throw2 == 0 ? [] : [throw2])
         frame = Frame(list: list)
         fillBall  = throw3
-        if throw1 > 10 || throw2 > 10 {
-            // we must validate on behalf of Frame
-            return nil
-        } else if let f = fillBall where f > 10 || frame.isOpen {
+        if let f = fillBall where f > 10 || frame.isOpen {
             // the last frame must be at least a spare to need a fill ball
             return nil
         }
