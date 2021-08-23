@@ -18,5 +18,5 @@ jobs:
         VARIABLE: ${{ secrets.YOUR_SECRET_NAME }}
       run: |
         echo "Do we have a secret?"
-        echo "-> $VARIABLE <-"
-        echo "-> ${{ secrets.YOUR_SECRET_NAME }} <-"
+        len=$(echo "$VARIABLE" | wc -c)
+        echo "$len -> ${{ secrets.YOUR_SECRET_NAME }} <-"
