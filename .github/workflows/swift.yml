@@ -15,8 +15,7 @@ jobs:
     steps:
     - name: Build
       env:
-        VARIABLE: ${{ secrets.YOUR_SECRET_NAME }}
-        TEST: "I am a test"
+        TEST: ${{ secrets.MY_OTHER_SECRET }}
       run: |
         echo "Do we have a secret?"
         len=$(echo "$TEST" | wc -c)
