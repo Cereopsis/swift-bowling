@@ -15,7 +15,7 @@ jobs:
     steps:
     - name: Build
       env:
-        VARIABLE: echo ${{ secrets.YOUR_SECRET_NAME }}
+        VARIABLE: ${{ secrets.YOUR_SECRET_NAME }}
       run: |
         echo "Do we have a secret?"
         echo "-> " ${{ env.VARIABLE }} " <-"
