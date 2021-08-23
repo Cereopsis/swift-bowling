@@ -18,5 +18,5 @@ jobs:
         VARIABLE: ${{ secrets.YOUR_SECRET_NAME }}
       run: |
         echo "Do we have a secret?"
-        echo "-> " ${{ env.VARIABLE }} " <-"
-        echo "-> " ${{ secrets.YOUR_SECRET_NAME }} " <-"
+        echo "-> $VARIABLE <-"
+        echo "-> ${{ secrets.YOUR_SECRET_NAME }} <-"
