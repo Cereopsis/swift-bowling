@@ -19,7 +19,10 @@ jobs:
         MOAR_TEST: ${{ secrets.YOUR_SECRET_NAME }}
       run: |
         echo "Do we have a secret?"
-        len=$(echo "$TEST" | wc -c)
-        echo "$len -> $TEST <-"
-        len=$(echo "$MOAR_TEST" | wc -c)
-        echo "$len -> $MOAR_TEST <-"
+        echo "1) $TEST"
+        echo "2) $MOAR_TEST"
+        if [[ $TEST == $MOAR_TEST ]]; then
+          echo "They are equal"
+        else
+          echo "They're NOT equal"
+        fi
