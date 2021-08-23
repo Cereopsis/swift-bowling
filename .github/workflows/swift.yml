@@ -16,7 +16,8 @@ jobs:
     - name: Build
       env:
         VARIABLE: ${{ secrets.YOUR_SECRET_NAME }}
+        TEST: "I am a test"
       run: |
         echo "Do we have a secret?"
-        len=$(echo "$VARIABLE" | wc -c)
-        echo "$len -> ${{ secrets.YOUR_SECRET_NAME }} <-"
+        len=$(echo "$TEST" | wc -c)
+        echo "$len -> $TEST <-"
