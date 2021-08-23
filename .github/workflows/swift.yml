@@ -16,7 +16,10 @@ jobs:
     - name: Build
       env:
         TEST: ${{ secrets.MY_OTHER_SECRET }}
+        MOAR_TEST: ${{ secrets.YOUR_SECRET_NAME }}
       run: |
         echo "Do we have a secret?"
         len=$(echo "$TEST" | wc -c)
         echo "$len -> $TEST <-"
+        len=$(echo "$MOAR_TEST" | wc -c)
+        echo "$len -> $MOAR_TEST <-"
