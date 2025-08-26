@@ -3,6 +3,7 @@
 Can we get a webhook locally?
 
 - Not yet
+- Was using the wrong secret-ish thing. Fool
 
 # swift-bowling
 
