@@ -5,6 +5,10 @@ Can we get a webhook locally?
 - Not yet
 - Was using the wrong secret-ish thing. Fool
 - Next issue - only on `pull_request.opened`
+  
+**Notes**
+Ok, cool, we can detect merged vs simply closed. Now what about metrics?
+
 
 # swift-bowling
 
