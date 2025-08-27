@@ -5,6 +5,7 @@ Can we get a webhook locally?
 - Not yet
 - Was using the wrong secret-ish thing. Fool
 - Next issue - only on `pull_request.opened`
+- What an idiot, I can't remember what other repos I added
 
 # swift-bowling
 
