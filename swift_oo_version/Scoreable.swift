@@ -22,6 +22,8 @@ SOFTWARE.
 */
 import Foundation
 
+// This is too OO, we can do better!
+
 public protocol Scoreable {
     var firstThrow: Int  { get }
     var secondThrow: Int { get }
