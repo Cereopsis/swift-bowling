@@ -1,4 +1,6 @@
 package bowling {
+
+	// TODO: This is soooo old we should update to something more modern
 	
     trait Scoreable {
     	val throw1: Int
